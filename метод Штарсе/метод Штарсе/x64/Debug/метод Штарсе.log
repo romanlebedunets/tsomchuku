@@ -1,0 +1,5 @@
+﻿  Main.cpp
+C:\Users\Lebid\Desktop\C++\метод Штарсе\метод Штарсе\Main.cpp(4,15): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+  метод Штарсе.vcxproj -> C:\Users\Lebid\Desktop\C++\метод Штарсе\x64\Debug\метод Штарсе.exe
+  'pwsh.exe' is not recognized as an internal or external command,
+  operable program or batch file.

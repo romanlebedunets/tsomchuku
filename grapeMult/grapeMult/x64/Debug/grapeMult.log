@@ -1,0 +1,7 @@
+﻿  Main.cpp
+C:\Users\Lebid\Desktop\C++\grapeMult\grapeMult\Main.cpp(4,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+  Source.cpp
+  Создание кода...
+  grapeMult.vcxproj -> C:\Users\Lebid\Desktop\C++\grapeMult\x64\Debug\grapeMult.exe
+  'pwsh.exe' is not recognized as an internal or external command,
+  operable program or batch file.
