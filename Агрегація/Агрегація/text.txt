@@ -1,0 +1,6 @@
+3
+cone 2 3
+cone 3 4
+cone 5 6
+
+
