@@ -22,13 +22,14 @@ int main() {
     }
 
     out << s << endl;
+
     s.add(0, c);
-    out << s << endl;
+    out << "Container after add:\n" << s << endl;
     s.pop(1);
-    out << s << endl;
+    out << "Container after remove:\n" << s << endl;
+
     s.deleteAll();
     out << s << endl;
-
 
     out.close();
 

@@ -15,6 +15,9 @@ public:
 
 	virtual double per() const abstract;
 	virtual double area() const abstract;
+	virtual double volume() const abstract;
+	virtual double sideArea() const abstract;
+	virtual double surfaceArea() const abstract;
 
 	friend istream& operator>>(istream& is, Shape& S) {
 		S.in(is);

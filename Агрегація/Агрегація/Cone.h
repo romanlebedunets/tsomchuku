@@ -2,34 +2,34 @@
 #include "Circle.h"
 class Cone : public Circle {
 private:
-	double h;
+	double height;
 public:
-	Cone() : Circle(), h(1.) {}
+	Cone() : Circle(), height(1.) {}
 	Cone(double R, double H) : Circle(R) {
-		h = (H > 0) ? H : 0.1;
+		height = (H > 0) ? H : 0.1;
 	}
-	Cone(const Cone& Ñ) : Circle(Ñ), h(Ñ.h) {}
+	Cone(const Cone& Ñ) : Circle(Ñ), height(Ñ.height) {}
 	virtual~Cone() {}
 
-	double volume() const {
-		return 0.33 * area() * h;
+	double volume() const override {
+		return 0.33 * area() * height;
 	}
-	double sideArea() const {
-		return Pi * r * sqrt(h * h + r * r);
+	double sideArea() const override {
+		return Pi * radius * sqrt(height * height + radius * radius);
 	}
-	double surfaceArea() const {
+	double surfaceArea() const override {
 		return area() + sideArea();
 	}
 
 	void setH(double H) {
-		h = (H > 0.1) ? H : 0.1;
+		height = (H > 0.1) ? H : 0.1;
 	}
 
 	void in(istream& is) override {
-		is >> r >> h;
+		is >> radius >> height;
 	}
 	void out(ostream& os) override {
-		os << "Cone  r: " << r << "\th:" << h << "\n\tVolume: " << volume() << "\tSideArea: " << sideArea() << "\tSurfaceArea: " << surfaceArea();
+		os << "Cone  r: " << radius << "\tHeight:" << height << "\n\tVolume: " << volume() << "\tSideArea: " << sideArea() << "\tSurfaceArea: " << surfaceArea();
 	}
 };
 

@@ -2,34 +2,34 @@
 #include "Circle.h"
 class Cylinder : public Circle {
 private:
-	double h;
+	double height;
 public:
-	Cylinder() : Circle(), h(1.) {}
+	Cylinder() : Circle(), height(1.) {}
 	Cylinder(double R, double H) : Circle(R) {
-		h = (H > 0) ? H : 0.1;
+		height = (H > 0) ? H : 0.1;
 	}
-	Cylinder(const Cylinder& Ñ) : Circle(Ñ), h(Ñ.h) {}
+	Cylinder(const Cylinder& Ñ) : Circle(Ñ), height(Ñ.height) {}
 	virtual~Cylinder() {}
 
-	double volume() const {
-		return area() * h;
+	double volume() const override {
+		return area() * height;
 	}
-	double sideArea() const {
-		return per() * h;
+	double sideArea() const override {
+		return per() * height;
 	}
-	double surfaceArea() const {
+	double surfaceArea() const override {
 		return 2 * area() + sideArea();
 	}
 
 	void setH(double H) {
-		h = (H > 0.1) ? H : 0.1;
+		height = (H > 0.1) ? H : 0.1;
 	}
 
 	void in(istream& is) override {
-		is >> r >> h;
+		is >> radius >> height;
 	}
 	void out(ostream& os) override {
-		os << "Cylinder  r: " << r << "\th:" << h << "\n\tVolume: " << volume() << "\tSideArea: " << sideArea() << "\tSurfaceArea: " << surfaceArea();
+		os << "Cylinder  r: " << radius << "\tHeight:" << height << "\n\tVolume: " << volume() << "\tSideArea: " << sideArea() << "\tSurfaceArea: " << surfaceArea();
 	}
 };
 

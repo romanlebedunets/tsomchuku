@@ -37,6 +37,21 @@ void Shapes::operator=(const Shapes& S) {
 		Shapess.push_back(copy(shape));
 	}
 }
+
+Shape* Shapes::firstBiggerThan100() const {
+	size_t index = -1;
+
+	for (size_t i = 0; i < size; i++) {
+		if (Shapess[i]->volume() > 100) {
+			index = i;
+			break;
+		}
+	}
+
+	if (index == -1) return nullptr;
+	return Shapess[index];
+}
+
 Shape* Shapes::operator[](size_t index) {
 	if (index >= size || index < 0) {
 		cout << "Invalid index!" << endl;
@@ -108,5 +123,9 @@ ostream& operator<<(ostream& os, const Shapes& S) {
 	for (Shape* i : S.Shapess) {
 		os << *i << endl;
 	}
+	os << "First shape with volume > 100:\n";
+	if (S.firstBiggerThan100() == nullptr) os << "None!" << endl;
+	else os << *S.firstBiggerThan100() << endl;
+
 	return os;
 }

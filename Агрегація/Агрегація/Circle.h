@@ -2,25 +2,25 @@
 #include "Shape.h"
 class Circle : public Shape {
 protected:
-	double r;
+	double radius;
 public:
-	Circle() : r(1.) {}
+	Circle() : radius(1.) {}
 	Circle(double R) { 
-		r = (R > 0.1) ? R : 0.1; 
+		radius = (R > 0.1) ? R : 0.1; 
 	}
-	Circle(const Circle& C) : r(C.r) {}
+	Circle(const Circle& C) : radius(C.radius) {}
 	virtual~Circle() {}
 
-	double per() const override { return 2 * Pi * r; }
-	double area() const override { return Pi * pow(r, 2); }
+	double per() const override { return 2 * Pi * radius; }
+	double area() const override { return Pi * pow(radius, 2); }
 
-	virtual void setR(double R) { r = (R > 0.1) ? R : 0.1; }
+	virtual void setR(double R) { radius = (R > 0.1) ? R : 0.1; }
 
 	void in(istream& is) override {
-		is >> r;
+		is >> radius;
 	}
 	void out(ostream& os) override {
-		os << "Circle  r: " << r << "\ntArea: " << area() << "\tPer: " << per();
+		os << "Circle  r: " << radius << "\ntArea: " << area() << "\tPer: " << per();
 	}
 };
 

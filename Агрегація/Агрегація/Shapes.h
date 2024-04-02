@@ -28,6 +28,8 @@ public:
 	void pop(size_t);
 	void deleteAll();
 
+	Shape* firstBiggerThan100() const;
+
 	Shape* copy(Shape*) const;
 
 	void operator=(const Shapes&);
