@@ -1,35 +1,35 @@
 #pragma once
 #include "Circle.h"
-class Cone : public Circle {
-private:
-	double height;
+#include "volum_shape.h"
+
+class Cone : public volumeShape {
 public:
-	Cone() : Circle(), height(1.) {}
-	Cone(double R, double H) : Circle(R) {
-		height = (H > 0) ? H : 0.1;
-	}
-	Cone(const Cone& Ñ) : Circle(Ñ), height(Ñ.height) {}
-	virtual~Cone() {}
+	Cone(double R = 0, double H = 0) : volumeShape((new Circle(R)), H) {}
+	~Cone() override {}
 
 	double volume() const override {
-		return 0.33 * area() * height;
+		return 0.33 * baseArea() * height;
 	}
 	double sideArea() const override {
-		return Pi * radius * sqrt(height * height + radius * radius);
+		double R = dynamic_cast<Circle*>(base)->getR();
+		return Pi * R * sqrt(height * height + R * R);
 	}
 	double surfaceArea() const override {
-		return area() + sideArea();
+		return baseArea() + sideArea();
 	}
 
-	void setH(double H) {
-		height = (H > 0.1) ? H : 0.1;
+	volumeShape* clone() const override {
+		return new Cone(*this);
 	}
 
 	void in(istream& is) override {
-		is >> radius >> height;
+		base->in(is);
+		is >> height;
 	}
-	void out(ostream& os) override {
-		os << "Cone  r: " << radius << "\tHeight:" << height << "\n\tVolume: " << volume() << "\tSideArea: " << sideArea() << "\tSurfaceArea: " << surfaceArea();
+	void out(ostream& os) const override {
+		os << "Cone:\nBase: ";
+		base->out(os);
+		os << "\n\tVolume: " << volume() << "\t\tSideArea: " << sideArea() << "\t\tSurfaceArea: " << surfaceArea();
 	}
 };
 

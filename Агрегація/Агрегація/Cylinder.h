@@ -1,35 +1,34 @@
 #pragma once
 #include "Circle.h"
-class Cylinder : public Circle {
-private:
-	double height;
+#include "volum_shape.h"
+
+class Cylinder : public volumeShape {
 public:
-	Cylinder() : Circle(), height(1.) {}
-	Cylinder(double R, double H) : Circle(R) {
-		height = (H > 0) ? H : 0.1;
-	}
-	Cylinder(const Cylinder& Ñ) : Circle(Ñ), height(Ñ.height) {}
-	virtual~Cylinder() {}
+	Cylinder(double R = 0, double H = 0) : volumeShape((new Circle(R)), H) {}
+	~Cylinder() override {}
 
 	double volume() const override {
-		return area() * height;
+		return base->area() * height;
 	}
 	double sideArea() const override {
-		return per() * height;
+		return base->per() * height;
 	}
 	double surfaceArea() const override {
-		return 2 * area() + sideArea();
+		return 2 * baseArea() + sideArea();
 	}
 
-	void setH(double H) {
-		height = (H > 0.1) ? H : 0.1;
+	volumeShape* clone() const override {
+		return new Cylinder(*this);
 	}
 
 	void in(istream& is) override {
-		is >> radius >> height;
+		base->in(is);
+		is >> height;
 	}
-	void out(ostream& os) override {
-		os << "Cylinder  r: " << radius << "\tHeight:" << height << "\n\tVolume: " << volume() << "\tSideArea: " << sideArea() << "\tSurfaceArea: " << surfaceArea();
+	void out(ostream& os) const override {
+		os << "Cylinder:\nBase: ";
+		base->out(os);
+		os << "\n\tVolume: " << volume() << "\t\tSideArea: " << sideArea() << "\t\tSurfaceArea: " << surfaceArea();
 	}
 };
 

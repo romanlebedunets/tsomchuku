@@ -1,35 +1,34 @@
 #pragma once
 #include "Rectangle.h"
-class Parallelepiped : public Rectangle {
-private:
-	double height;
+#include "volum_shape.h"
+
+class Parallelepiped : public volumeShape {
 public:
-	Parallelepiped() : Rectangle(), height(1.) {}
-	Parallelepiped(double A, double B, double H) : Rectangle(A, B) {
-		height = (H > 0) ? H : 0.1;
-	}
-	Parallelepiped(const Parallelepiped& P) : Rectangle(P), height(P.height) {}
-	virtual~Parallelepiped() {}
+	Parallelepiped(double A = 0, double B = 0, double H = 0) : volumeShape((new Rectangle(A, B)), H) {}
+	~Parallelepiped() override {}
 
 	double volume() const override {
-		return area() * height;
+		return baseArea() * height;
 	}
 	double sideArea() const override {
-		return per() * height;
+		return basePer() * height;
 	}
 	double surfaceArea() const override {
-		return 2 * area() + sideArea();
+		return 2 * baseArea() + sideArea();
 	}
 
-	void setH(double H) {
-		height = (H > 0.1) ? H : 0.1;
+	volumeShape* clone() const override {
+		return new Parallelepiped(*this);
 	}
 
 	void in(istream& is) override {
-		is >> a >> b >> height;
+		base->in(is);
+		is >> height;
 	}
-	void out(ostream& os) override {
-		os << "Parallelepiped  a: " << a << "\tb: " << b << "\tHeight:" << height << "\n\tVolume: " << volume() << "\tSideArea: " << sideArea() << "\tSurfaceArea: " << surfaceArea();
+	void out(ostream& os) const override {
+		os << "Parallelepiped:\nBase: ";
+		base->out(os);
+		os	<< "\n\tVolume: " << volume() << "\tSideArea: " << sideArea() << "\tSurfaceArea: " << surfaceArea();
 	}
 };
 

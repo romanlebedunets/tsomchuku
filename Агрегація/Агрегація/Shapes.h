@@ -3,39 +3,46 @@
 #include "Parallelepiped.h"
 #include "Piramid.h"
 #include "Cone.h"
-
 class Shapes {
 	int size;
-	vector<Shape*> Shapess;
+	vector<volumeShape*> mem;
+	void checkInd(int i) const { 
+		if (i < 0 || i >= size) {
+			cerr << "Error: Invalid index " << i << endl;
+			exit(-1);
+		}
+	}
 public:
 	Shapes() : size(0) {}
-	Shapes(int s) : size(s) {}
-	Shapes(const Shapes& S) : size(S.size) {
-		Shapess.reserve(S.Shapess.size());
-		for (Shape* shape : S.Shapess) {
-			Shapess.push_back(copy(shape));
-		}
-	}
-	~Shapes() {
-		for (Shape* i : Shapess) {
-			delete i;
-		}
-		Shapess.clear();
-	}
+	Shapes(vector<volumeShape*>);
+	Shapes(const Shapes& S);
+	~Shapes();
 
 	bool isEmpty() const;
-	void add(size_t, Shape*);
-	void pop(size_t);
+	void add(int, volumeShape*);
+	void pop(int);
 	void deleteAll();
 
-	Shape* firstBiggerThan100() const;
+	volumeShape* copy(volumeShape*) const;
 
-	Shape* copy(Shape*) const;
-
-	void operator=(const Shapes&);
-	Shape* operator[](size_t);
+	Shapes& operator=(const Shapes&);
+	volumeShape*& operator[](int);
+	const volumeShape* operator[](int) const;
 
 	friend istream& operator>>(istream&, Shapes&);
 	friend ostream& operator<<(ostream&, const Shapes&);
+
+	typedef void Action(volumeShape*);
+	void doEach(Action f) const {
+		for (int i = 0; i < size; i++) f(mem[i]);
+	}
+	typedef bool Predicate(volumeShape*);
+	int detectFirst(Predicate condition) const {
+		int i = 0;
+		for (; i < size; i++)
+			if (condition(mem[i])) break;
+		return i;
+	}
 };
+
 

@@ -1,35 +1,38 @@
 #pragma once
 #include "Triangle.h"
-class Piramid : public Triangle {
-private:
-	double height;
+#include "volum_shape.h"
+
+class Piramid : public volumeShape {
 public:
-	Piramid() : Triangle(), height(1.) {}
-	Piramid(double A, double B, double C, double H) : Triangle(A, B, C) { 
-		height = (H > 0) ? H : 0.1; 
-	}
-	Piramid(const Piramid& P) : Triangle(P), height(P.height) {}
-	virtual~Piramid() {}
+	Piramid(double A = 0, double B = 0, double C = 0, double H = 0) : volumeShape((new Triangle(A, B, C)), H) {}
+	~Piramid() override {}
 
 	double volume() const override {
-		return 0.33 * area() * height;
+		return 0.33 * baseArea() * height;
 	}
 	double sideArea() const override {
-		return 0.5 * per() * height;
+		return 0.5 * basePer() * height;
 	}
 	double surfaceArea() const override {
-		return area() + sideArea();
+		return baseArea() + sideArea();
 	}
 
-	void setH(double H) {
-		height = (H > 0.1) ? H : 0.1;
+	volumeShape* clone() const override {
+		return new Piramid(*this);
 	}
 
 	void in(istream& is) override {
-		is >> a >> b >> c >> height;
+		base->in(is);
+		is >> height;
 	}
-	void out(ostream& os) override {
-		os << "Piramid  a: " << a << "\tb: " << b << "\tc: " << c << "\tHeight:" << height << "\n\tVolume: " << volume() << "\tSideArea: " << sideArea() << "\tSurfaceArea: " << surfaceArea();
+	void out(ostream& os) const override {
+		if (!dynamic_cast<Triangle*>(base)->isExist()) {
+			os << "Base triangle is invalid!" << endl;
+			return;
+		}
+		os << "Piramid:\nBase: ";
+		base->out(os);
+		os << "\n\tVolume: " << volume() << "\t\tSideArea: " << sideArea() << "\t\tSurfaceArea: " << surfaceArea();
 	}
 };
 

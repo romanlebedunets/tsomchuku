@@ -1,71 +1,75 @@
 #include "Shapes.h"
 
+Shapes::Shapes(vector<volumeShape*> v) : size(v.size()) {
+	for (auto shape : v) {
+		mem.emplace_back(shape->clone());
+	}
+}
+
+Shapes::Shapes(const Shapes& S) : size(S.size) {
+	for (auto shape : S.mem) {
+		mem.emplace_back(shape->clone());
+	}
+}
+
+Shapes::~Shapes() {
+	for (auto it = mem.begin(); it != mem.end(); it++) {
+		delete* it;
+	}
+}
+
 bool Shapes::isEmpty() const {
 	return size > 0;
 }
-void Shapes::add(size_t index, Shape* S) {
-	if (index > size || index < 0) {
-		cout << "Invalid index!" << endl;
-		return;
-	}
-	Shapess.insert(Shapess.begin() + index, S);
+
+void Shapes::add(int index, volumeShape* S) {
+	checkInd(index);
+	mem.emplace(mem.begin() + index, S);
 }
-void Shapes::pop(size_t index) {
-	if (index >= size || index < 0) {
-		cout << "Invalid index!" << endl;
-		return;
-	}
-	Shapess.erase(Shapess.begin() + index);
+
+void Shapes::pop(int index) {
+	checkInd(index);
+	mem.erase(mem.begin() + index);
 }
+
 void Shapes::deleteAll() {
 	size = 0;
-	for (Shape* i : Shapess) {
-		delete i;
+	for (auto it = mem.begin(); it != mem.end(); it++) {
+		delete* it;
 	}
-	Shapess.clear();
+	mem.clear();
 }
 
-void Shapes::operator=(const Shapes& S) {
-	size = S.size;
-	for (Shape* i : Shapess) {
-		delete i;
-	}
-	Shapess.clear();
+Shapes& Shapes::operator=(const Shapes& S) {
+	if (this == &S)
+		return *this;
 
-	Shapess.reserve(S.Shapess.size());
-	for (Shape* shape : S.Shapess) {
-		Shapess.push_back(copy(shape));
+	deleteAll();
+
+	for (auto shape : S.mem) {
+		mem.emplace_back(shape->clone());
 	}
+
+	return *this;
 }
 
-Shape* Shapes::firstBiggerThan100() const {
-	size_t index = -1;
 
-	for (size_t i = 0; i < size; i++) {
-		if (Shapess[i]->volume() > 100) {
-			index = i;
-			break;
-		}
-	}
-
-	if (index == -1) return nullptr;
-	return Shapess[index];
+volumeShape*& Shapes::operator[](int index) {
+	checkInd(index);
+	return mem[index];
 }
 
-Shape* Shapes::operator[](size_t index) {
-	if (index >= size || index < 0) {
-		cout << "Invalid index!" << endl;
-		exit(-1);
-	}
-	return Shapess[index];
+const volumeShape* Shapes::operator[](int index) const {
+	checkInd(index);
+	return mem[index];
 }
 
-Shape* Shapes::copy(Shape* v) const {
+volumeShape* Shapes::copy(volumeShape* v) const {
 	if (v == nullptr) {
 		return nullptr;
 	}
 
-	Shape* copiedShape = nullptr;
+	volumeShape* copiedShape = nullptr;
 
 	if (typeid(*v) == typeid(Cylinder))
 		copiedShape = new Cylinder(*dynamic_cast<Cylinder*>(v));
@@ -120,12 +124,8 @@ ostream& operator<<(ostream& os, const Shapes& S) {
 		return os;
 	}
 
-	for (Shape* i : S.Shapess) {
+	for (auto i : S.mem) {
 		os << *i << endl;
 	}
-	os << "First shape with volume > 100:\n";
-	if (S.firstBiggerThan100() == nullptr) os << "None!" << endl;
-	else os << *S.firstBiggerThan100() << endl;
-
 	return os;
 }
