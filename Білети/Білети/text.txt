@@ -1,0 +1,23 @@
+3
+100 10 r r r 1
+200 10 t t t 2
+10 10 t t t 2
+
+Name class: class UniqueArt<int>
+	Cost: 100	Count: 10	Genre: r	NameBoss: r
+	NameOne: r	PriceOne: 1
+Name class: class UniqueArt<int>
+	Cost: 200	Count: 10	Genre: t	NameBoss: t
+	NameOne: t	PriceOne: 2
+Name class: class UniqueArt<int>
+	Cost: 10	Count: 10	Genre: t	NameBoss: t
+	NameOne: t	PriceOne: 2
+
+Cheapest art:
+Name class: class UniqueArt<int>
+	Cost: 10	Count: 10	Genre: t	NameBoss: t
+	NameOne: t	PriceOne: 2
+
+Count of predmets: 30
+
+Non repeated genres: r	t	t	
